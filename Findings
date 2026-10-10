@@ -1,0 +1,29 @@
+TLNK test töö
+
+findings
+1. Vana versioon npm 10.9.4.
+
+Ajapiirangust tulenevalt ei uuendanud.
+
+2. Ühe numbri vajutamine sisestab numbrid korduvalt(vale state-i salvestamine?).
+
+Reacti StrictMode on peal, React monteerib iga komponendi korraks külge, eemaldab selle ja monteerib uuesti. useEffect käivitub monteerimisel kaks korda ning, kuna esimest handlerit ei eemaldata, tekib <table>-elemendile lõpuks kaks handlerit. UseEffectil pole puhastus sammu. Igakord kui muudad tab-i lisatakse uus handler ja iga kord kui vajutad numbrit käivituvad kõik handlerid, mis on küljes.
+
+3. test:ci script tühi.
+vitest run
+
+4. Koma kohti saab panna rohkem kui kaks.
+
+See on valuta vahetus turgudel normaalne toiming(õppisin siinkohal midagi uut)
+
+5. Uue valuuta pärimine(refresh) ei lähe läbi.
+
+API otsal on rate limit peal, mille pihta võib kiiresti tulla(http 429 too many quests) siis jääbki viimase päringu vastus kuvama.
+
+6. Ajaloos oleva päringu kordamisel tuleb vale vastus.
+
+1,000 muutub api päringus 1-heks. parsefloat() eemaldab kõik pärast ","
+Sisend vajab puhastamist value.replace(/,/g, '').
+
+7. HistoryRow peaks olema eraldi komponent.
+Liigutasin HistoryRow-ga seonduva koodi eraldi faili.
